@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 300px;
+            height: 400px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: 1fr 1fr 1fr 1fr;
+            gap: 10px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #fff;
+            padding: 20px;
+        }
+
+        .display {
+            grid-column: span 4;
+            height: 50px;
+            background-color: #eee;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 10px;
+            font-size: 24px;
+            border: 2px solid #ddd;
+        }
+
+        .item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 60px;
+            background-color: #f0f0f0;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .item:hover {
+            background-color: #ddd;
+        }
+
+        .item:active {
+            background-color: #bbb;
+        }
+
+        .operator {
+            background-color: #f0a500;
+            color: white;
+        }
+
+        .operator:hover {
+            background-color: #e89e00;
+        }
+
+        .equal {
+            background-color: #34b7f1;
+            color: white;
+            grid-column: span 2;
+        }
+
+        .equal:hover {
+            background-color: #1c9cc7;
+        }
+
+        .clear {
+            background-color: #ff4c4c;
+            color: white;
+            grid-column: span 2;
+        }
+
+        .clear:hover {
+            background-color: #e43e3e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="display" id="display">0</div>
+        <div class="item clear" id="clear">C</div>
+        <div class="item operator" id="divide">/</div>
+        <div class="item operator" id="multiply">*</div>
+        <div class="item">7</div>
+        <div class="item">8</div>
+        <div class="item">9</div>
+        <div class="item operator" id="subtract">-</div>
+        <div class="item">4</div>
+        <div class="item">5</div>
+        <div class="item">6</div>
+        <div class="item operator" id="add">+</div>
+        <div class="item">1</div>
+        <div class="item">2</div>
+        <div class="item">3</div>
+        <div class="item equal" id="equals">=</div>
+        <div class="item">0</div>
+        <div class="item">.</div>
+        <div class="item">()</div>
+    </div>
+
+    <script>
+        let display = document.getElementById('display');
+        let currentInput = '0';
+        let operator = '';
+        let firstValue = null;
+
+        function updateDisplay() {
+            display.textContent = currentInput;
+        }
+
+        function clearDisplay() {
+            currentInput = '0';
+            firstValue = null;
+            operator = '';
+            updateDisplay();
+        }
+
+        function appendNumber(number) {
+            if (currentInput === '0') {
+                currentInput = number;
+            } else {
+                currentInput += number;
+            }
+            updateDisplay();
+        }
+
+        function setOperator(op) {
+            if (firstValue === null) {
+                firstValue = parseFloat(currentInput);
+                operator = op;
+                currentInput = '';
+            } else {
+                calculate();
+                operator = op;
+                firstValue = parseFloat(display.textContent);
+            }
+        }
+
+        function calculate() {
+            if (firstValue !== null) {
+                let secondValue = parseFloat(currentInput);
+                let result;
+                switch (operator) {
+                    case '+':
+                        result = firstValue + secondValue;
+                        break;
+                    case '-':
+                        result = firstValue - secondValue;
+                        break;
+                    case '*':
+                        result = firstValue * secondValue;
+                        break;
+                    case '/':
+                        result = firstValue / secondValue;
+                        break;
+                    default:
+                        return;
+                }
+                currentInput = result.toString();
+                firstValue = null;
+                operator = '';
+                updateDisplay();
+            }
+        }
+
+        document.getElementById('clear').addEventListener('click', clearDisplay);
+        document.getElementById('divide').addEventListener('click', () => setOperator('/'));
+        document.getElementById('multiply').addEventListener('click', () => setOperator('*'));
+        document.getElementById('subtract').addEventListener('click', () => setOperator('-'));
+        document.getElementById('add').addEventListener('click', () => setOperator('+'));
+        document.getElementById('equals').addEventListener('click', calculate);
+
+        let numbers = document.querySelectorAll('.item');
+        numbers.forEach(button => {
+            button.addEventListener('click', () => {
+                let value = button.textContent;
+                if (!isNaN(value) || value === '.') {
+                    appendNumber(value);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

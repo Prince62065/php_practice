@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+</head>
+<body>
+    <div class="grid place-content-center h-screen ">
+        <div class="max-w-sm mx-auto border-2 h-125 w-195 rounded-xl">
+            <div class="flex justify-center mt-5 mb-5">
+                <h1 class="text-4xl">Check Leap year</h1>
+            </div>
+            <form action="">
+                <div class="grid place-content-center">
+                    <div class="">
+                        <label for="year">Enter any year</label><br>
+                        <input type="number" name="year" class="border border-slate-600 rounded-xl px-5 p-2" placeholder="Enter any year" >
+                    </div>
+                    <div>
+                        <input type="submit" name="check" value="CHECK IF IT IS LEAP YEAR OR NOT">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
